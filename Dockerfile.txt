@@ -1,0 +1,40 @@
+FROM python:alpine3.7
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+CMD [ "crond", "-f" ]
+
+# requirements.txt contents
+pyxdg
+toml
+pymisp
+
+# docker-compose.yml contents
+version: '3.2'
+
+services:
+  misp-url:
+    image: misp-cron:v2
+    container_name: misp-url
+    volumes:;
+      - type: bind
+        source: ./config/crontab
+        target: /var/spool/cron/crontabs/root
+      - type: bind
+        source: ./scripts
+        target: /scripts
+      - type: bind
+        source: ./log
+        target: /log
+
+# master_qradar_misp_url.py (assuming contents, only cron entry was visible)
+* * * * * cd /scripts && python3 master_qradar_misp_url.py >> /log/url-cron.log
+
+# crontab contents
+# min hour day month weekday command
+*/15 * * * * run-parts /etc/periodic/15min
+0 * * * * run-parts /etc/periodic/hourly
+0 2 * * * run-parts /etc/periodic/daily
+0 3 * * 6 run-parts /etc/periodic/weekly
+0 5 1 * * run-parts /etc/periodic/monthly

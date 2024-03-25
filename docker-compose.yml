@@ -1,0 +1,62 @@
+version: '3.2'
+
+services:
+  misp-domain:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python3 /scripts/master_qradar_misp_domain.py
+    volumes:
+      - ./scripts:/scripts
+      - ./config:/config
+      - ./log:/log
+
+  misp-ipsrc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python3 /scripts/master_qradar_misp_ipsrc.py
+    volumes:
+      - ./scripts:/scripts
+      - ./config:/config
+      - ./log:/log
+
+  misp-ipdst:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python3 /scripts/master_qradar_misp_ipdst.py
+    volumes:
+      - ./scripts:/scripts
+      - ./config:/config
+      - ./log:/log
+
+  misp-url:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python3 /scripts/master_qradar_misp_url.py
+    volumes:
+      - ./scripts:/scripts
+      - ./config:/config
+      - ./log:/log
+
+  misp-md5:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python3 /scripts/master_qradar_misp_MD5.py
+    volumes:
+      - ./scripts:/scripts
+      - ./config:/config
+      - ./log:/log
+
+  misp-sha256:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python3 /scripts/master_qradar_misp_SHA256.py
+    volumes:
+      - ./scripts:/scripts
+      - ./config:/config
+      - ./log:/log
